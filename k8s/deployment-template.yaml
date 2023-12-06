@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: locations-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trip-planner
+  template:
+    metadata:
+      labels:
+        app: trip-planner
+    spec:
+      containers:
+        - image: prporso/image-catalog:test #to be changed
+          name: trip-planner
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://cornelius.db.elephantsql.com:5432/wckrnamu
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: wckrnamu
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              value: v8LBJZpjvIG11HSJTs8XwJg8N9Okr04C
+              #valueFrom: #use Kubernetes secret for storing the password
+              #  secretKeyRef:
+              #    name: #to be added
+              #    key: #to be added
+          ports:
+            - containerPort: 8080
+              name: server
+          livenessProbe:
+            httpGet:
+              path: /health/live
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: trip-planner
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: trip-planner
