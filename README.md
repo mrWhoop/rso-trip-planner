@@ -1,27 +1,27 @@
-# RSO: Image metadata microservice
+# Project based on RSO: Image metadata microservice
 
-## Prerequisites
 
-```bash
-docker run -d --name pg-image-metadata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=image-metadata -p 5432:5432 postgres:13
-```
+following are some useful commands:
 
 ## Build and run commands
 ```bash
 mvn clean package
 cd api/target
-java -jar image-catalog-api-1.0.0-SNAPSHOT.jar
+java -jar trip-planner-api-1.0.0-SNAPSHOT.jar
 ```
 Available at: localhost:8080/v1/images
 
 ## Docker commands
 ```bash
-docker build -t novaslika .   
+docker build -t tripplaner .   
 docker images
-docker run novaslika    
-docker tag novaslika prporso/novaslika   
-docker push prporso/novaslika  
+docker run tripplaner    
+docker tag tripplaner mrwhoop/tripplaner   
+docker push mrwhoop/tripplaner  
 ```
+
+TODO:
+
 ```bash
 docker network ls  
 docker network rm rso
@@ -36,8 +36,8 @@ docker run -p 8080:8080 --network rso -e KUMULUZEE_DATASOURCES0_CONNECTIONURL=jd
 kubectl version
 kubectl --help
 kubectl get nodes
-kubectl create -f image-catalog-deployment.yaml 
-kubectl apply -f image-catalog-deployment.yaml 
+kubectl create -f trip-planer-deployment.yaml 
+kubectl apply -f trip-planer-deployment.yaml 
 kubectl get services 
 kubectl get deployments
 kubectl get pods
