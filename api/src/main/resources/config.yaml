@@ -12,12 +12,15 @@ kumuluzee:
       connection-url: jdbc:postgresql://cornelius.db.elephantsql.com:5432/wckrnamu
       username: wckrnamu
       password: v8LBJZpjvIG11HSJTs8XwJg8N9Okr04C
-      max-pool-size: 5
+      max-pool-size: 2
   health:
     checks:
-      data-source-health-check:
+#      data-source-health-check:
+#        type: liveness
+#        jndi-name: jdbc/LocationDS
+      disk-space-health-check:
+        threshold: 100000000
         type: liveness
-        jndi-name: jdbc/LocationDS
   metrics:
     web-instrumentation:
       - name: locations-endpoint
