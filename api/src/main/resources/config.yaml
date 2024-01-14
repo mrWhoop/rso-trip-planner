@@ -12,7 +12,10 @@ kumuluzee:
       connection-url: jdbc:postgresql://cornelius.db.elephantsql.com:5432/wckrnamu
       username: wckrnamu
       password: v8LBJZpjvIG11HSJTs8XwJg8N9Okr04C
-      max-pool-size: 2
+      max-pool-size: 1
+  openapi-mp:
+    ui:
+      specification-server: http://20.75.151.253:8080/
   health:
     checks:
 #      data-source-health-check:

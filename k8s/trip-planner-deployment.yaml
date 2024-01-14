@@ -13,7 +13,7 @@ spec:
         app: trip-planner
     spec:
       containers:
-        - image: mrwhoop/trip-planner:2024-01-14-18-59-09
+        - image: mrwhoop/trip-planner:2024-01-14-19-49-50
           name: trip-planner
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
