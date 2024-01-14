@@ -1,4 +1,4 @@
-package si.fri.rso.samples.imagecatalog.api.v1.resources;
+package si.fri.rso.samples.locations.api.v1.resources;
 
 import si.fri.rso.samples.locations.services.config.RestProperties;
 

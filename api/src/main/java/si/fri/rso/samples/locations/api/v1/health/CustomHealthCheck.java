@@ -1,4 +1,4 @@
-package si.fri.rso.samples.imagecatalog.api.v1.health;
+package si.fri.rso.samples.locations.api.v1.health;
 
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;

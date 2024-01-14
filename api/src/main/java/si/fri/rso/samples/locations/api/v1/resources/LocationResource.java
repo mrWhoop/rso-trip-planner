@@ -1,4 +1,4 @@
-package si.fri.rso.samples.imagecatalog.api.v1.resources;
+package si.fri.rso.samples.locations.api.v1.resources;
 
 import com.kumuluz.ee.logs.cdi.Log;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -40,15 +40,15 @@ public class LocationResource {
     @Context
     protected UriInfo uriInfo;
 
-    @Operation(description = "Get all image metadata.", summary = "Get all metadata")
+    @Operation(description = "Get list of all locations.", summary = "Get all locations")
     @APIResponses({
             @APIResponse(responseCode = "200",
-                    description = "List of image metadata",
+                    description = "List of locations",
                     content = @Content(schema = @Schema(implementation = Location.class, type = SchemaType.ARRAY)),
                     headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
             )})
     @GET
-    public Response getImageMetadata() {
+    public Response getLocation() {
 
         List<Location> location = LocationBean.getLocationFilter(uriInfo);
 
@@ -65,7 +65,7 @@ public class LocationResource {
             )})
     @GET
     @Path("/{locationId}")
-    public Response getImageMetadata(@Parameter(description = "Metadata ID.", required = true)
+    public Response getLocation(@Parameter(description = "Metadata ID.", required = true)
                                      @PathParam("locationId") Integer locationId) {
 
         Location location = LocationBean.getLocation(locationId);
@@ -95,18 +95,19 @@ public class LocationResource {
         }
         else {
             location = LocationBean.createLocation(location);
+            return Response.status(Response.Status.CREATED).entity(location).build();
         }
 
-        return Response.status(Response.Status.CONFLICT).entity(location).build();
+        // return Response.status(Response.Status.CONFLICT).entity(location).build();
 
     }
 
 
-    @Operation(description = "Update metadata for an image.", summary = "Update metadata")
+    @Operation(description = "Update data for a location.", summary = "Update data")
     @APIResponses({
             @APIResponse(
                     responseCode = "200",
-                    description = "Metadata successfully updated."
+                    description = "Location data successfully updated."
             )
     })
     @PUT
@@ -124,16 +125,18 @@ public class LocationResource {
         if (location == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-
-        return Response.status(Response.Status.NOT_MODIFIED).build();
+        else{
+           return Response.status(Response.Status.OK).build();
+        }
+        // return Response.status(Response.Status.NOT_MODIFIED).build();
 
     }
 
-    @Operation(description = "Delete metadata for an image.", summary = "Delete metadata")
+    @Operation(description = "Delete data for a location.", summary = "Delete location")
     @APIResponses({
             @APIResponse(
                     responseCode = "200",
-                    description = "Metadata successfully deleted."
+                    description = "Location successfully deleted."
             ),
             @APIResponse(
                     responseCode = "404",
@@ -142,21 +145,17 @@ public class LocationResource {
     })
     @DELETE
     @Path("{locationId}")
-    public Response deleteImageMetadata(@Parameter(description = "Location ID.", required = true)
+    public Response deleteLocation(@Parameter(description = "Location ID.", required = true)
                                         @PathParam("locationId") Integer locationId){
 
         boolean deleted = LocationBean.deleteLocation(locationId);
 
         if (deleted) {
-            return Response.status(Response.Status.NO_CONTENT).build();
+            return Response.status(Response.Status.OK).build();
         }
         else {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
-
-
-
-
 
 }

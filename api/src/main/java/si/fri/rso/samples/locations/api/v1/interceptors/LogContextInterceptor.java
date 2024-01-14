@@ -1,4 +1,4 @@
-package si.fri.rso.samples.imagecatalog.api.v1.interceptors;
+package si.fri.rso.samples.locations.api.v1.interceptors;
 
 import com.kumuluz.ee.common.config.EeConfig;
 import com.kumuluz.ee.common.runtime.EeRuntime;

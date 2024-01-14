@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import si.fri.rso.samples.locations.lib.Location;
@@ -40,6 +41,7 @@ public class LocationBean {
     }
 
     @Timed
+    @Counted(name="location_list_count")
     public List<Location> getLocationFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
