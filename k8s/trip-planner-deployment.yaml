@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: locations-deployment
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: trip-planner
@@ -13,7 +13,7 @@ spec:
         app: trip-planner
     spec:
       containers:
-        - image: mrwhoop/tripplaner:latest
+        - image: mrwhoop/trip-planner:2024-01-14-18-59-09
           name: trip-planner
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
