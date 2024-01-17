@@ -88,7 +88,12 @@ public class LocationResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.status(Response.Status.OK).entity(response.body()).build();
+        StringBuilder builder = new StringBuilder();
+        builder.append("location:").append(location).append("\n");
+        builder.append("weather:").append(response.body());
+
+
+        return Response.status(Response.Status.OK).entity(builder.toString()).build();
     }
 
     @Operation(description = "Add location.", summary = "Add location")
