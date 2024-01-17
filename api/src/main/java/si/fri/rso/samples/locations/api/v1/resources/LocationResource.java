@@ -72,8 +72,29 @@ public class LocationResource {
             )})
     @GET
     @Path("/{locationId}")
-    public Response getLocation(@Parameter(description = "Metadata ID.", required = true)
+    public Response getLocation(@Parameter(description = "Location ID.", required = true)
                                      @PathParam("locationId") Integer locationId) throws IOException, InterruptedException {
+
+        Location location = LocationBean.getLocation(locationId);
+
+        if (location == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(location).build();
+    }
+
+    @Operation(description = "Get weather data for location.", summary = "Get weather data")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "Weather data",
+                    content = @Content(
+                            schema = @Schema(implementation = Location.class))
+            )})
+    @GET
+    @Path("/{locationId}/weather")
+    public Response getLocationWeather(@Parameter(description = "Location ID.", required = true)
+                                @PathParam("locationId") Integer locationId) throws IOException, InterruptedException {
 
         Location location = LocationBean.getLocation(locationId);
 
@@ -90,14 +111,7 @@ public class LocationResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String locationJSON = ow.writeValueAsString(location);
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("{").append("\"location\":").append(locationJSON).append(",");
-        sb.append(response.body()).append("}");
-
-        return Response.status(Response.Status.OK).entity(sb.toString()).build();
+        return Response.status(Response.Status.OK).entity(response.body()).build();
     }
 
     @Operation(description = "Add location.", summary = "Add location")
