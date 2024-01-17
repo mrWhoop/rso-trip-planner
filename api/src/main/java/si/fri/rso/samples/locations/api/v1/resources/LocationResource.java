@@ -20,6 +20,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -66,15 +71,24 @@ public class LocationResource {
     @GET
     @Path("/{locationId}")
     public Response getLocation(@Parameter(description = "Metadata ID.", required = true)
-                                     @PathParam("locationId") Integer locationId) {
+                                     @PathParam("locationId") Integer locationId) throws IOException, InterruptedException {
 
         Location location = LocationBean.getLocation(locationId);
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://open-weather13.p.rapidapi.com/city/london"))
+                .header("X-RapidAPI-Key", "47186bcab3msh1a11d665d36372ap1383fcjsn04dec11a4e11")
+                .header("X-RapidAPI-Host", "open-weather13.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
 
         if (location == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.status(Response.Status.OK).entity(location).build();
+        return Response.status(Response.Status.OK).entity(response.body()).build();
     }
 
     @Operation(description = "Add location.", summary = "Add location")
