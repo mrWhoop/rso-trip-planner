@@ -73,7 +73,7 @@ public class LocationResource {
     @GET
     @Path("/{locationId}")
     public Response getLocation(@Parameter(description = "Location ID.", required = true)
-                                     @PathParam("locationId") Integer locationId) throws IOException, InterruptedException {
+                                     @PathParam("locationId") Integer locationId){
 
         Location location = LocationBean.getLocation(locationId);
 
