@@ -1,5 +1,7 @@
 package si.fri.rso.samples.locations.api.v1.resources;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.kumuluz.ee.logs.cdi.Log;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
@@ -88,12 +90,14 @@ public class LocationResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append("location:").append(location).append("\n");
-        builder.append("weather:").append(response.body());
+        ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        String locationJSON = ow.writeValueAsString(location);
 
+        StringBuilder sb = new StringBuilder();
+        sb.append("{").append("\"location\":").append(locationJSON).append(",");
+        sb.append(response.body()).append("}");
 
-        return Response.status(Response.Status.OK).entity(builder.toString()).build();
+        return Response.status(Response.Status.OK).entity(sb.toString()).build();
     }
 
     @Operation(description = "Add location.", summary = "Add location")
